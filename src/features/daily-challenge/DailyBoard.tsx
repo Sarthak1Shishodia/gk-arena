@@ -51,7 +51,7 @@ const DAILY_GAUNTLET: DailyItem[] = [
 ];
 
 export default function DailyBoard() {
-  const todayKey = new Date().toISOString().split("T")[0];
+  const [todayKey, setTodayKey] = useState<string>("");
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [results, setResults] = useState<boolean[]>([]);
@@ -59,12 +59,18 @@ export default function DailyBoard() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(`gk_daily_${todayKey}`);
+    // Next.js Hydration Fix: Generate date only on the client
+    const dateStr = new Date().toISOString().split("T")[0];
+    setTodayKey(dateStr);
+
+    const saved = localStorage.getItem(`gk_daily_${dateStr}`);
     if (saved) {
       setResults(JSON.parse(saved));
       setCompleted(true);
     }
-  }, [todayKey]);
+  }, []);
+
+  if (!todayKey) return null; // Prevent rendering until date is ready
 
   const currentItem = DAILY_GAUNTLET[step];
 

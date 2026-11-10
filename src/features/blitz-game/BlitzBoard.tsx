@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { BlitzMcqPayload } from "@/types/game";
-import { fetchBlitzQuestions } from "@/lib/supabase/queries";
+import { fetchBlitzQuestions, logMistake } from "@/lib/supabase/queries";
 import { Timer, Zap, CheckCircle2, XCircle, RotateCcw, Trophy, Database } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -58,6 +58,8 @@ export default function BlitzBoard() {
     if (idx === currentQ.correctIndex) {
       setScore((s) => s + 100 + timeLeft * 2);
       confetti({ particleCount: 40, spread: 50, origin: { y: 0.75 } });
+    } else {
+      void logMistake(currentQ);
     }
   };
 
