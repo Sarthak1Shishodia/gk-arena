@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { BlitzMcqPayload } from "@/types/game";
-import { Timer, Zap, CheckCircle2, XCircle, RotateCcw, Trophy } from "lucide-react";
+import { fetchBlitzQuestions } from "@/lib/supabase/queries";
+import { Timer, Zap, CheckCircle2, XCircle, RotateCcw, Trophy, Database } from "lucide-react";
 import confetti from "canvas-confetti";
 
-const MOCK_BLITZ_QUESTIONS: BlitzMcqPayload[] = [
+const FALLBACK_BLITZ: BlitzMcqPayload[] = [
   {
     question: "Which phenomenon explains why optical fibers transmit light over long distances with minimal loss?",
     options: ["Refraction", "Total Internal Reflection", "Diffraction", "Dispersion"],
@@ -18,28 +19,28 @@ const MOCK_BLITZ_QUESTIONS: BlitzMcqPayload[] = [
     correctIndex: 2,
     explanation: "The Sutlej (ancient Shatadru) originates in Rakshastal and cuts through the Himalayas at Shipki La in Himachal Pradesh.",
   },
-  {
-    question: "Which organelle in a eukaryotic cell possesses its own circular DNA and 70S ribosomes?",
-    options: ["Golgi Apparatus", "Lysosome", "Mitochondria", "Endoplasmic Reticulum"],
-    correctIndex: 2,
-    explanation: "Mitochondria (and plastids) are semi-autonomous organelles capable of synthesizing some of their own proteins.",
-  },
-  {
-    question: "Under which Article of the Indian Constitution can the President proclaim a Financial Emergency?",
-    options: ["Article 352", "Article 356", "Article 360", "Article 368"],
-    correctIndex: 2,
-    explanation: "Article 360 empowers the President to declare a Financial Emergency; it has never been invoked in India.",
-  },
 ];
 
 export default function BlitzBoard() {
+  const [questions, setQuestions] = useState<BlitzMcqPayload[]>(FALLBACK_BLITZ);
+  const [isCloud, setIsCloud] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(45);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
 
-  const currentQ = MOCK_BLITZ_QUESTIONS[currentIdx];
+  useEffect(() => {
+    fetchBlitzQuestions().then((cloudData) => {
+      if (cloudData.length > 0) {
+        const shuffled = [...cloudData].sort(() => Math.random() - 0.5);
+        setQuestions(shuffled);
+        setIsCloud(true);
+      }
+    });
+  }, []);
+
+  const currentQ = questions[currentIdx];
 
   useEffect(() => {
     if (gameOver || selectedOpt !== null) return;
@@ -61,19 +62,19 @@ export default function BlitzBoard() {
   };
 
   const nextQuestion = () => {
-    if (currentIdx + 1 >= MOCK_BLITZ_QUESTIONS.length) {
-      setGameOver(true);
-    } else {
+    if (currentIdx + 1 >= questions.length) setGameOver(true);
+    else {
       setCurrentIdx((i) => i + 1);
       setSelectedOpt(null);
     }
   };
 
   const restartBlitz = () => {
+    setQuestions((prev) => [...prev].sort(() => Math.random() - 0.5));
     setCurrentIdx(0);
     setSelectedOpt(null);
     setScore(0);
-    setTimeLeft(45);
+    setTimeLeft(60);
     setGameOver(false);
   };
 
@@ -88,7 +89,7 @@ export default function BlitzBoard() {
           onClick={restartBlitz}
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold transition"
         >
-          <RotateCcw className="w-4 h-4" /> Play Blitz Again
+          <RotateCcw className="w-4 h-4" /> Play New Cloud Set
         </button>
       </div>
     );
@@ -97,9 +98,16 @@ export default function BlitzBoard() {
   return (
     <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
       <div className="flex justify-between items-center mb-4">
-        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full flex items-center gap-1.5">
-          <Zap className="w-3.5 h-3.5 fill-cyan-300" /> Rapid-Fire Blitz ({currentIdx + 1}/{MOCK_BLITZ_QUESTIONS.length})
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 fill-cyan-300" /> Blitz ({currentIdx + 1}/{questions.length})
+          </span>
+          {isCloud && (
+            <span className="text-[11px] font-semibold px-2 py-0.5 bg-emerald-500/15 text-emerald-400 rounded-full flex items-center gap-1">
+              <Database className="w-3 h-3" /> Cloud Live
+            </span>
+          )}
+        </div>
         <div className="flex items-center gap-4 text-sm font-bold">
           <span className="text-emerald-400">Score: {score}</span>
           <span className={`flex items-center gap-1 ${timeLeft <= 10 ? "text-rose-400 animate-pulse" : "text-amber-400"}`}>
@@ -147,7 +155,7 @@ export default function BlitzBoard() {
             onClick={nextQuestion}
             className="self-end px-5 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-semibold transition"
           >
-            {currentIdx + 1 === MOCK_BLITZ_QUESTIONS.length ? "Finish Round" : "Next Question →"}
+            {currentIdx + 1 === questions.length ? "Finish Round" : "Next Question →"}
           </button>
         </div>
       )}
