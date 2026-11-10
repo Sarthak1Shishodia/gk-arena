@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { Trophy, LogOut, User as UserIcon, Zap } from "lucide-react";
+import SiteNav from "@/components/SiteNav";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
@@ -56,8 +57,9 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+      <div className="mx-auto max-w-6xl px-4">
+      <div className="flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg">GK</div>
           <span className="font-extrabold text-lg tracking-tight text-slate-100 hidden sm:block">Arena</span>
@@ -98,6 +100,10 @@ export default function Header() {
             </form>
           </div>
         )}
+      </div>
+      <Suspense fallback={<div className="h-10" />}>
+        <SiteNav />
+      </Suspense>
       </div>
     </header>
   );

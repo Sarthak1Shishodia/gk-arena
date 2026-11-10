@@ -94,7 +94,7 @@ export default function InterviewStage({ roomName, token, serverUrl, error }: In
   };
 
   return (
-    <main className="flex h-[calc(100vh-4rem)] flex-col bg-slate-950 text-white">
+    <main className="flex min-h-0 flex-1 flex-col bg-slate-950 text-white">
       <header className="flex items-center justify-between gap-3 border-b border-slate-800 bg-slate-950/90 px-4 py-3">
         <div className="min-w-0">
           <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-300">

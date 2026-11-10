@@ -22,12 +22,13 @@ export default function TimelineBoard() {
   const [rounds, setRounds] = useState<TimelinePayload[]>(FALLBACK_ROUNDS);
   const [roundIdx, setRoundIdx] = useState(0);
   const [isCloud, setIsCloud] = useState(false);
-  const [items, setItems] = useState(() => [...FALLBACK_ROUNDS[0].events].sort(() => Math.random() - 0.5));
+  const [items, setItems] = useState(() => [...FALLBACK_ROUNDS[0].events].reverse());
   const [submitted, setSubmitted] = useState(false);
   const [isWin, setIsWin] = useState(false);
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
+    setItems([...FALLBACK_ROUNDS[0].events].sort(() => Math.random() - 0.5));
     fetchTimelineRounds().then((cloudRounds) => {
       if (cloudRounds.length > 0) {
         setRounds(cloudRounds);

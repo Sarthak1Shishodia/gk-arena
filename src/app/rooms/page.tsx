@@ -39,7 +39,7 @@ export default function RoomsLobbyPage() {
 
   if (choice === "solo") {
     return (
-      <main className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
+      <main className="relative min-h-full overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top,_rgba(120,83,9,0.2),_transparent_60%)]" />
         <div className="relative">
           <SoloStudio onBack={() => setChoice("choose")} />
@@ -49,7 +49,7 @@ export default function RoomsLobbyPage() {
   }
 
   return (
-    <main className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
+    <main className="relative min-h-full overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.18),_transparent_60%)]" />
 
       {choice === "choose" ? (
