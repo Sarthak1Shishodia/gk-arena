@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { Trophy, LogOut, User as UserIcon } from "lucide-react";
+import { Trophy, LogOut, User as UserIcon, Zap } from "lucide-react";
 
 export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [elo, setElo] = useState(1200);
+  const [xp, setXp] = useState(0);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -28,31 +29,26 @@ export default function Header() {
 
   const fetchProfile = async (userId: string) => {
     if (!supabase) return;
-    const { data } = await supabase.from("profiles").select("elo_rating").eq("id", userId).single();
-    if (data) setElo(data.elo_rating);
+    const { data } = await supabase.from("profiles").select("contest_elo, practice_xp").eq("id", userId).single();
+    if (data) {
+      setElo(data.contest_elo);
+      setXp(data.practice_xp);
+    }
   };
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supabase || !email) return;
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.origin },
-    });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin } });
     if (error) alert(error.message);
-    else alert("Magic link sent! Check your email to log in.");
+    else alert("Magic link sent!");
     setLoading(false);
   };
 
   const handleGoogleLogin = async () => {
     if (!supabase) return;
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin,
-      },
-    });
+    await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin } });
   };
 
   const handleLogout = async () => {
@@ -63,34 +59,28 @@ export default function Header() {
     <header className="w-full border-b border-slate-800 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg">
-            GK
-          </div>
-          <span className="font-extrabold text-lg tracking-tight text-slate-100 hidden sm:block">
-            Arena
-          </span>
+          <div className="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg">GK</div>
+          <span className="font-extrabold text-lg tracking-tight text-slate-100 hidden sm:block">Arena</span>
         </div>
 
         {user ? (
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg shadow-sm">
-              <Trophy className="w-4 h-4 text-amber-400" />
-              <span className="text-sm font-bold text-slate-200">{elo} ELO</span>
+            <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg shadow-sm">
+              <div className="flex items-center gap-1.5 text-sm font-bold text-amber-400">
+                <Trophy className="w-4 h-4" /> {elo}
+              </div>
+              <div className="w-px h-4 bg-slate-700"></div>
+              <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-400">
+                <Zap className="w-4 h-4" /> {xp} XP
+              </div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-900 rounded-lg transition"
-              title="Sign Out"
-            >
+            <button onClick={handleLogout} className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-900 rounded-lg transition" title="Sign Out">
               <LogOut className="w-4 h-4" />
             </button>
           </div>
         ) : (
           <div className="flex items-center gap-3">
-            <button
-              onClick={handleGoogleLogin}
-              className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 hover:bg-white text-slate-900 text-sm font-bold rounded-lg transition"
-            >
+            <button onClick={handleGoogleLogin} className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 hover:bg-white text-slate-900 text-sm font-bold rounded-lg transition">
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -99,23 +89,10 @@ export default function Header() {
               </svg>
               Google
             </button>
-            
             <div className="h-6 w-px bg-slate-700 hidden sm:block"></div>
-
             <form onSubmit={handleMagicLink} className="hidden sm:flex items-center gap-2">
-              <input
-                type="email"
-                placeholder="Or use email..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-40"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition"
-              >
+              <input type="email" placeholder="Or use email..." value={email} onChange={(e) => setEmail(e.target.value)} required className="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-40" />
+              <button type="submit" disabled={loading} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition">
                 {loading ? "..." : <UserIcon className="w-4 h-4" />}
               </button>
             </form>
