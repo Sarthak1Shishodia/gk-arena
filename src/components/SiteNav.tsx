@@ -18,7 +18,7 @@ export default function SiteNav() {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
-              active ? item.activeClass : "text-slate-400 hover:bg-slate-900 hover:text-slate-100"
+              active ? item.activeClass : "text-zinc-500 hover:text-premium-charcoal dark:text-zinc-400 dark:hover:text-zinc-100"
             }`}
           >
             <Icon className="h-4 w-4" />

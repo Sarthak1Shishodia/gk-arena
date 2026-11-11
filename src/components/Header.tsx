@@ -2,7 +2,8 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { Trophy, LogOut, User as UserIcon, Zap } from "lucide-react";
+import { Trophy, LogOut, User as UserIcon, Zap, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import SiteNav from "@/components/SiteNav";
 
 export default function Header() {
@@ -11,8 +12,11 @@ export default function Header() {
   const [xp, setXp] = useState(0);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
+    setMounted(true);
     if (!supabase) return;
     
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -57,32 +61,40 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-premium-border bg-premium-beige/80 backdrop-blur-md dark:border-premium-borderDark dark:bg-premium-gray/80">
       <div className="mx-auto max-w-6xl px-4">
       <div className="flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center font-bold text-white shadow-lg">GK</div>
-          <span className="font-extrabold text-lg tracking-tight text-slate-100 hidden sm:block">Arena</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded border border-premium-accent/40 font-bold text-premium-accent">GK</div>
+          <span className="hidden text-lg font-extrabold tracking-tight text-premium-accent sm:block">Arena</span>
         </div>
 
         {user ? (
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-3 px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg shadow-sm">
-              <div className="flex items-center gap-1.5 text-sm font-bold text-amber-400">
+            <div className="hidden items-center gap-3 rounded-lg border border-premium-border bg-white px-3 py-1.5 sm:flex dark:border-premium-borderDark dark:bg-zinc-900">
+              <div className="flex items-center gap-1.5 text-sm font-bold text-premium-accent">
                 <Trophy className="w-4 h-4" /> {elo}
               </div>
-              <div className="w-px h-4 bg-slate-700"></div>
-              <div className="flex items-center gap-1.5 text-sm font-bold text-emerald-400">
+              <div className="h-4 w-px bg-premium-border dark:bg-premium-borderDark"></div>
+              <div className="flex items-center gap-1.5 text-sm font-bold text-premium-charcoal dark:text-zinc-200">
                 <Zap className="w-4 h-4" /> {xp} XP
               </div>
             </div>
-            <button onClick={handleLogout} className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-900 rounded-lg transition" title="Sign Out">
+            <button onClick={handleLogout} className="rounded-lg p-2 text-premium-charcoal transition hover:text-premium-accent dark:text-zinc-200" title="Sign Out">
               <LogOut className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="rounded-lg border border-premium-border p-2 text-premium-charcoal transition hover:border-premium-accent dark:border-premium-borderDark dark:text-zinc-200"
+              aria-label="Toggle color theme"
+            >
+              {mounted && resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
           </div>
         ) : (
           <div className="flex items-center gap-3">
-            <button onClick={handleGoogleLogin} className="flex items-center gap-2 px-4 py-1.5 bg-slate-100 hover:bg-white text-slate-900 text-sm font-bold rounded-lg transition">
+            <button onClick={handleGoogleLogin} className="flex items-center gap-2 rounded-lg border border-premium-border bg-white px-4 py-1.5 text-sm font-bold text-premium-charcoal transition hover:border-premium-accent dark:border-premium-borderDark dark:bg-zinc-900 dark:text-zinc-100">
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -91,13 +103,21 @@ export default function Header() {
               </svg>
               Google
             </button>
-            <div className="h-6 w-px bg-slate-700 hidden sm:block"></div>
-            <form onSubmit={handleMagicLink} className="hidden sm:flex items-center gap-2">
-              <input type="email" placeholder="Or use email..." value={email} onChange={(e) => setEmail(e.target.value)} required className="px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-40" />
-              <button type="submit" disabled={loading} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition">
+            <div className="hidden h-6 w-px bg-premium-border sm:block dark:bg-premium-borderDark"></div>
+            <form onSubmit={handleMagicLink} className="hidden items-center gap-2 sm:flex">
+              <input type="email" placeholder="Or use email..." value={email} onChange={(e) => setEmail(e.target.value)} required className="w-40 rounded-lg border border-premium-border bg-white px-3 py-1.5 text-sm text-premium-charcoal placeholder:text-zinc-400 focus:border-premium-accent focus:outline-none dark:border-premium-borderDark dark:bg-zinc-900 dark:text-zinc-100" />
+              <button type="submit" disabled={loading} className="rounded-lg border border-premium-accent px-3 py-1.5 text-sm font-semibold text-premium-accent transition hover:bg-premium-accent hover:text-premium-charcoal disabled:opacity-50">
                 {loading ? "..." : <UserIcon className="w-4 h-4" />}
               </button>
             </form>
+            <button
+              type="button"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              className="rounded-lg border border-premium-border p-2 text-premium-charcoal transition hover:border-premium-accent dark:border-premium-borderDark dark:text-zinc-200"
+              aria-label="Toggle color theme"
+            >
+              {mounted && resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
           </div>
         )}
       </div>

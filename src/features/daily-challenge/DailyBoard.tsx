@@ -109,17 +109,17 @@ export default function DailyBoard() {
   if (completed) {
     const score = results.filter(Boolean).length;
     return (
-      <div className="max-w-xl mx-auto p-8 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 text-center shadow-2xl">
-        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full mb-3">
+      <div className="max-w-xl mx-auto p-8 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark text-center shadow-sm">
+        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-premium-accent rounded-full mb-3">
           <Sparkles className="w-3.5 h-3.5" /> Daily Gauntlet Completed
         </span>
         <h2 className="text-3xl font-extrabold mb-2">{score} / 5 Correct</h2>
-        <p className="text-slate-400 text-xs mb-6">Challenge Date: {todayKey}</p>
+        <p className="text-zinc-500 dark:text-zinc-400 text-xs mb-6">Challenge Date: {todayKey}</p>
 
-        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 max-w-xs mx-auto mb-6 text-left space-y-2">
+        <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-premium-border dark:border-premium-borderDark max-w-xs mx-auto mb-6 text-left space-y-2">
           {results.map((res, idx) => (
             <div key={idx} className="flex items-center justify-between text-sm font-medium">
-              <span className="text-slate-300">{DAILY_GAUNTLET[idx].category}</span>
+              <span className="text-zinc-600 dark:text-zinc-300">{DAILY_GAUNTLET[idx].category}</span>
               <span>{res ? "🟩 Correct" : "🟥 Missed"}</span>
             </div>
           ))}
@@ -127,7 +127,7 @@ export default function DailyBoard() {
 
         <button
           onClick={copyScorecard}
-          className="w-full max-w-xs mx-auto flex items-center justify-center gap-2 py-3 px-6 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-xl transition shadow-lg"
+          className="mx-auto flex w-full max-w-xs items-center justify-center gap-2 rounded-xl bg-premium-charcoal px-6 py-3 font-bold text-premium-beige transition hover:bg-premium-accent dark:bg-zinc-100 dark:text-premium-charcoal"
         >
           {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
           {copied ? "Copied for WhatsApp / Telegram!" : "Share My Scorecard"}
@@ -137,9 +137,9 @@ export default function DailyBoard() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
       <div className="flex justify-between items-center mb-4">
-        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full flex items-center gap-1.5">
+        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-premium-accent rounded-full flex items-center gap-1.5">
           <Flame className="w-3.5 h-3.5 fill-amber-400" /> Daily 5 • {currentItem.category}
         </span>
         <div className="flex gap-1.5">
@@ -153,24 +153,24 @@ export default function DailyBoard() {
                     : "bg-rose-500"
                   : i === step
                   ? "bg-amber-400"
-                  : "bg-slate-800"
+                  : "bg-premium-beige dark:bg-zinc-800"
               }`}
             />
           ))}
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold mb-6 text-slate-100">{currentItem.question}</h2>
+      <h2 className="text-lg font-semibold mb-6 text-premium-charcoal dark:text-zinc-100">{currentItem.question}</h2>
 
       <div className="space-y-3 mb-6">
         {currentItem.options.map((opt, idx) => {
           const isSelected = selected === idx;
           const isCorrect = idx === currentItem.correctIndex;
-          let style = "bg-slate-800/80 border-slate-700 hover:border-slate-500";
+          let style = "bg-premium-beige dark:bg-zinc-800 border-premium-border dark:border-premium-borderDark hover:border-premium-accent";
           if (selected !== null) {
-            if (isCorrect) style = "bg-emerald-950/60 border-emerald-500 text-emerald-200";
-            else if (isSelected) style = "bg-rose-950/60 border-rose-500 text-rose-200";
-            else style = "bg-slate-900 border-slate-800 opacity-50";
+            if (isCorrect) style = "border-emerald-700 bg-emerald-50 text-emerald-900 dark:border-emerald-500 dark:bg-emerald-950/60 dark:text-emerald-200";
+            else if (isSelected) style = "border-rose-700 bg-rose-50 text-rose-900 dark:border-rose-500 dark:bg-rose-950/60 dark:text-rose-200";
+            else style = "bg-white dark:bg-zinc-900 border-premium-border dark:border-premium-borderDark opacity-50";
           }
           return (
             <button
@@ -188,8 +188,8 @@ export default function DailyBoard() {
       </div>
 
       {selected !== null && (
-        <div className="p-4 rounded-xl bg-slate-800/90 border border-slate-700 flex flex-col gap-3">
-          <p className="text-xs text-slate-300 leading-relaxed">
+        <div className="p-4 rounded-xl bg-premium-beige dark:bg-zinc-800 border border-premium-border dark:border-premium-borderDark flex flex-col gap-3">
+          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
             <span className="font-bold text-amber-400">Exam Insight: </span>
             {currentItem.fact}
           </p>

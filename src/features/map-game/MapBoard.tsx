@@ -87,7 +87,7 @@ export default function MapBoard() {
 
   if (finished) {
     return (
-      <div className="max-w-xl mx-auto p-8 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 text-center shadow-2xl">
+      <div className="max-w-xl mx-auto p-8 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark text-center shadow-sm">
         <Trophy className="w-12 h-12 text-amber-400 mx-auto mb-3" />
         <h2 className="text-2xl font-bold mb-1">Expedition Complete!</h2>
         <div className="text-4xl font-extrabold text-emerald-400 my-6">{totalScore} PTS</div>
@@ -105,10 +105,10 @@ export default function MapBoard() {
   const targetXY = latLngToXY(target.lat, target.lng);
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full flex items-center gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 rounded-full flex items-center gap-1.5">
             <Compass className="w-3.5 h-3.5" /> Map ({idx + 1}/{targets.length})
           </span>
           {isCloud && (
@@ -120,9 +120,9 @@ export default function MapBoard() {
         <span className="text-sm font-bold text-amber-400">Score: {totalScore}</span>
       </div>
 
-      <h2 className="text-lg font-semibold mb-4 text-slate-100">{target.prompt}</h2>
+      <h2 className="text-lg font-semibold mb-4 text-premium-charcoal dark:text-zinc-100">{target.prompt}</h2>
 
-      <div className="relative bg-slate-950 rounded-xl border border-slate-800 overflow-hidden mb-4">
+      <div className="relative bg-white dark:bg-zinc-900 rounded-xl border border-premium-border dark:border-premium-borderDark overflow-hidden mb-4">
         <svg viewBox="0 0 400 460" onClick={handleMapClick} className={`w-full h-80 select-none ${guess ? "cursor-default" : "cursor-crosshair"}`}>
           {[80, 160, 240, 320, 400].map((v) => (
             <React.Fragment key={v}>
@@ -145,16 +145,16 @@ export default function MapBoard() {
       </div>
 
       {guess && distanceKm !== null && (
-        <div className="p-4 rounded-xl bg-slate-800/90 border border-slate-700 flex flex-col gap-2">
+        <div className="p-4 rounded-xl bg-premium-beige dark:bg-zinc-800 border border-premium-border dark:border-premium-borderDark flex flex-col gap-2">
           <div className="flex justify-between items-center">
             <span className="font-bold text-sm text-emerald-400 flex items-center gap-1.5">
               <Navigation className="w-4 h-4" /> {target.targetName}
             </span>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded bg-slate-900 text-amber-300">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded bg-white dark:bg-zinc-900 text-premium-accent">
               Off by {distanceKm} km
             </span>
           </div>
-          <p className="text-xs text-slate-300 leading-relaxed">{target.fact}</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">{target.fact}</p>
           <button onClick={nextTarget} className="self-end mt-1 px-5 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-sm font-semibold transition">
             {idx + 1 === targets.length ? "See Final Score" : "Next Location →"}
           </button>

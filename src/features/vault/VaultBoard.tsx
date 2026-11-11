@@ -49,7 +49,7 @@ export default function VaultBoard() {
 
   if (loading) {
     return (
-      <div className="max-w-xl mx-auto p-8 bg-slate-900 text-slate-300 rounded-2xl border border-slate-800 text-center">
+      <div className="max-w-xl mx-auto p-8 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 rounded-2xl border border-premium-border dark:border-premium-borderDark text-center">
         Opening your mistake vault…
       </div>
     );
@@ -57,10 +57,10 @@ export default function VaultBoard() {
 
   if (cards.length === 0) {
     return (
-      <div className="max-w-xl mx-auto p-8 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 text-center">
+      <div className="max-w-xl mx-auto p-8 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark text-center">
         <Brain className="w-10 h-10 text-violet-400 mx-auto mb-3" />
         <h2 className="text-xl font-bold mb-2">Vault is clear</h2>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
           Wrong Blitz and Contest answers are saved here when you are signed in. Answer one correctly to retire it.
         </p>
       </div>
@@ -68,12 +68,12 @@ export default function VaultBoard() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
       <div className="flex items-center justify-between mb-5">
         <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-violet-500/20 text-violet-300 rounded-full flex items-center gap-1.5">
           <Brain className="w-3.5 h-3.5" /> Mistake Vault
         </span>
-        <span className="text-xs font-semibold text-slate-500">{cards.length} to review</span>
+        <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">{cards.length} to review</span>
       </div>
 
       <div className="space-y-4">
@@ -81,18 +81,18 @@ export default function VaultBoard() {
           const selected = attempts[card.id];
           const revealed = selected !== undefined;
           return (
-            <article key={card.id} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-              <p className="text-[11px] uppercase tracking-wide text-slate-500 mb-2">Card {cardIndex + 1}</p>
+            <article key={card.id} className="rounded-2xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-4">
+              <p className="text-[11px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-2">Card {cardIndex + 1}</p>
               <h2 className="text-base font-semibold mb-4">{card.payload.question}</h2>
               <div className="space-y-2">
                 {card.payload.options.map((option, optionIndex) => {
                   const isSelected = selected === optionIndex;
                   const isCorrect = optionIndex === card.payload.correctIndex;
-                  let style = "bg-slate-800/80 border-slate-700 hover:border-violet-400";
+                  let style = "bg-premium-beige dark:bg-zinc-800 border-premium-border dark:border-premium-borderDark hover:border-violet-400";
                   if (revealed) {
-                    if (isCorrect) style = "bg-emerald-950/60 border-emerald-500 text-emerald-200";
-                    else if (isSelected) style = "bg-rose-950/60 border-rose-500 text-rose-200";
-                    else style = "bg-slate-900 border-slate-800 opacity-60";
+                    if (isCorrect) style = "border-emerald-700 bg-emerald-50 text-emerald-900 dark:border-emerald-500 dark:bg-emerald-950/60 dark:text-emerald-200";
+                    else if (isSelected) style = "border-rose-700 bg-rose-50 text-rose-900 dark:border-rose-500 dark:bg-rose-950/60 dark:text-rose-200";
+                    else style = "bg-white dark:bg-zinc-900 border-premium-border dark:border-premium-borderDark opacity-60";
                   }
 
                   return (
@@ -111,7 +111,7 @@ export default function VaultBoard() {
               </div>
               {revealed && (
                 <div className="mt-3 flex flex-col gap-3">
-                  <p className="text-xs leading-relaxed text-slate-300">
+                  <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
                     <span className="font-bold text-violet-300">Still in the vault. </span>
                     {card.payload.explanation}
                   </p>
@@ -123,7 +123,7 @@ export default function VaultBoard() {
                         return next;
                       })
                     }
-                    className="self-end px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm font-semibold transition"
+                    className="self-end px-4 py-2 rounded-lg bg-premium-beige dark:bg-zinc-800 hover:bg-premium-beige text-premium-charcoal dark:bg-zinc-800 dark:text-zinc-100 text-sm font-semibold transition"
                   >
                     Try again
                   </button>

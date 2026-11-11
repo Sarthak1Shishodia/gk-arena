@@ -50,7 +50,7 @@ async function RoomSession({
 
 function RoomFallback() {
   return (
-    <main className="flex h-[calc(100vh-4rem)] items-center justify-center bg-slate-950 px-4 text-sm text-slate-400">
+    <main className="flex h-[calc(100vh-4rem)] items-center justify-center bg-white dark:bg-zinc-900 px-4 text-sm text-zinc-500 dark:text-zinc-400">
       Connecting to the interview room…
     </main>
   );

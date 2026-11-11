@@ -39,7 +39,7 @@ export default function RoomsLobbyPage() {
 
   if (choice === "solo") {
     return (
-      <main className="relative min-h-full overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
+      <main className="relative min-h-full overflow-hidden bg-white px-4 py-10 text-premium-charcoal dark:bg-zinc-900 dark:text-zinc-100 sm:py-16">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top,_rgba(120,83,9,0.2),_transparent_60%)]" />
         <div className="relative">
           <SoloStudio onBack={() => setChoice("choose")} />
@@ -49,18 +49,18 @@ export default function RoomsLobbyPage() {
   }
 
   return (
-    <main className="relative min-h-full overflow-hidden bg-slate-950 px-4 py-10 text-white sm:py-16">
+    <main className="relative min-h-full overflow-hidden bg-white px-4 py-10 text-premium-charcoal dark:bg-zinc-900 dark:text-zinc-100 sm:py-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top,_rgba(99,102,241,0.18),_transparent_60%)]" />
 
       {choice === "choose" ? (
         <div className="relative mx-auto flex w-full max-w-4xl flex-col gap-6">
           <header>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-premium-border dark:border-premium-borderDark px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-premium-accent">
               <Video className="h-3.5 w-3.5" />
               Mock Interview
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Choose your board</h1>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400 sm:text-base">
               Sit a peer interview, or take a solo lecturette with the camera off until you speak.
             </p>
           </header>
@@ -68,20 +68,20 @@ export default function RoomsLobbyPage() {
             <button
               type="button"
               onClick={() => setChoice("peer")}
-              className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 text-left shadow-2xl shadow-black/40 transition hover:border-cyan-400/50"
+              className="rounded-3xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-6 text-left shadow-sm transition hover:border-cyan-400/50"
             >
-              <Users className="mb-4 h-8 w-8 text-cyan-300" />
+              <Users className="mb-4 h-8 w-8 text-zinc-600 dark:text-zinc-300" />
               <h2 className="text-xl font-extrabold">Join Peer Room</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">Share a room name and interview with another candidate on camera.</p>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">Share a room name and interview with another candidate on camera.</p>
             </button>
             <button
               type="button"
               onClick={() => setChoice("solo")}
-              className="rounded-3xl border border-amber-500/20 bg-slate-900/80 p-6 text-left shadow-2xl shadow-black/40 transition hover:border-amber-400/60"
+              className="rounded-3xl border border-amber-500/20 bg-white dark:bg-zinc-900 p-6 text-left shadow-sm transition hover:border-amber-400/60"
             >
-              <Shield className="mb-4 h-8 w-8 text-amber-300" />
+              <Shield className="mb-4 h-8 w-8 text-premium-accent" />
               <h2 className="text-xl font-extrabold">Practice Solo (AI GTO Assessor)</h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">Draw an SSB topic, prepare for 3 minutes, then record your lecturette.</p>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">Draw an SSB topic, prepare for 3 minutes, then record your lecturette.</p>
             </button>
           </div>
         </div>
@@ -91,11 +91,11 @@ export default function RoomsLobbyPage() {
           <button
             type="button"
             onClick={() => setChoice("choose")}
-            className="mb-4 text-sm font-semibold text-slate-400 transition hover:text-white"
+            className="mb-4 text-sm font-semibold text-zinc-500 dark:text-zinc-400 transition hover:text-premium-charcoal dark:hover:text-zinc-100"
           >
             ← All boards
           </button>
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-premium-border dark:border-premium-borderDark px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-premium-accent">
             <Video className="h-3.5 w-3.5" />
             Mock Interview
           </div>
@@ -105,13 +105,13 @@ export default function RoomsLobbyPage() {
               live room
             </span>
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400 sm:text-base">
+          <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400 sm:text-base">
             Share a room name with your partner, then join with camera and microphone ready.
           </p>
         </header>
 
-        <section className="flex flex-col gap-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl shadow-black/40 sm:p-6">
-          <label className="flex flex-col gap-2 text-sm font-semibold text-slate-200">
+        <section className="flex flex-col gap-4 rounded-3xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-5 shadow-sm sm:p-6">
+          <label className="flex flex-col gap-2 text-sm font-semibold text-premium-charcoal dark:text-zinc-200">
             Room name
             <input
               value={roomName}
@@ -121,10 +121,10 @@ export default function RoomsLobbyPage() {
               }}
               placeholder="upsc-panel-1"
               autoComplete="off"
-              className="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-base font-medium text-white outline-none transition placeholder:text-slate-600 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/30"
+              className="rounded-xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 px-4 py-3 text-base font-medium text-premium-charcoal dark:text-zinc-100 outline-none transition placeholder:text-zinc-400 focus:border-premium-accent focus:ring-2 focus:ring-premium-accent/20"
             />
           </label>
-          <label className="flex flex-col gap-2 text-sm font-semibold text-slate-200">
+          <label className="flex flex-col gap-2 text-sm font-semibold text-premium-charcoal dark:text-zinc-200">
             Display name
             <input
               value={displayName}
@@ -134,19 +134,19 @@ export default function RoomsLobbyPage() {
               }}
               placeholder="Sarthak"
               autoComplete="nickname"
-              className="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-base font-medium text-white outline-none transition placeholder:text-slate-600 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/30"
+              className="rounded-xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 px-4 py-3 text-base font-medium text-premium-charcoal dark:text-zinc-100 outline-none transition placeholder:text-zinc-400 focus:border-premium-accent focus:ring-2 focus:ring-premium-accent/20"
             />
           </label>
 
           {error && (
-            <p role="status" className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">
+            <p role="status" className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-800 dark:text-rose-200">
               {error}
             </p>
           )}
 
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 via-cyan-500 to-violet-400 px-6 py-4 text-base font-extrabold text-slate-950 shadow-lg shadow-indigo-500/20 transition hover:brightness-110 active:scale-[0.99]"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-premium-charcoal px-6 py-4 text-base font-extrabold text-premium-beige transition hover:bg-premium-accent active:scale-[0.99] dark:bg-zinc-100 dark:text-premium-charcoal"
           >
             <Mic className="h-5 w-5" />
             Join Room

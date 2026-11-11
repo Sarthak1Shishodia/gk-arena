@@ -205,17 +205,15 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
     <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-300">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-premium-border dark:border-premium-borderDark px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-premium-accent">
             <Shield className="h-3.5 w-3.5" />
             SSB Lecturette
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
             Solo AI{" "}
-            <span className="bg-gradient-to-r from-amber-300 via-lime-200 to-emerald-300 bg-clip-text text-transparent">
-              GTO assessor
-            </span>
+            <span className="text-premium-accent">GTO assessor</span>
           </h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
             Three minutes to prepare. Three minutes to speak. The camera stays off until you start.
           </p>
         </div>
@@ -223,7 +221,7 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
           <button
             type="button"
             onClick={onBack}
-            className="shrink-0 rounded-xl border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
+            className="shrink-0 rounded-xl border border-premium-border dark:border-premium-borderDark px-3 py-2 text-sm font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-premium-accent hover:text-premium-charcoal dark:hover:text-zinc-100"
           >
             Back
           </button>
@@ -231,14 +229,14 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
       </header>
 
       {phase === "LOBBY" && (
-        <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 sm:p-8">
-          <p className="text-sm leading-relaxed text-slate-400">
+        <section className="rounded-3xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-6 shadow-sm sm:p-8">
+          <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
             Draw one lecturette card. Use the prep clock to structure your opening, arguments, and close.
           </p>
           <button
             type="button"
             onClick={generateTopic}
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 via-lime-300 to-emerald-400 px-6 py-4 text-base font-extrabold text-slate-950 shadow-lg shadow-amber-500/20 transition hover:brightness-110 sm:w-auto"
+            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-premium-charcoal px-6 py-4 text-base font-extrabold text-premium-beige transition hover:bg-premium-accent dark:bg-zinc-100 dark:text-premium-charcoal sm:w-auto"
           >
             <Shield className="h-5 w-5" />
             Generate Topic
@@ -247,18 +245,18 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
       )}
 
       {phase === "PREP" && (
-        <section className="rounded-3xl border border-amber-500/20 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-300">Your topic</p>
-          <h2 className="mt-2 text-2xl font-extrabold text-white sm:text-3xl">{topic}</h2>
-          <div className={`mt-6 flex items-center gap-3 text-5xl font-black tabular-nums ${clockUrgent ? "text-rose-400" : "text-amber-300"}`}>
+        <section className="rounded-3xl border border-amber-500/20 bg-white dark:bg-zinc-900 p-6 shadow-sm sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-premium-accent">Your topic</p>
+          <h2 className="mt-2 text-2xl font-extrabold text-premium-charcoal dark:text-zinc-100 sm:text-3xl">{topic}</h2>
+          <div className={`mt-6 flex items-center gap-3 text-5xl font-black tabular-nums ${clockUrgent ? "text-rose-400" : "text-premium-accent"}`}>
             <Timer className="h-8 w-8" />
             {formatClock(secondsLeft)}
           </div>
-          <p className="mt-3 text-sm text-slate-400">Camera and microphone are off. Speaking starts when this clock ends.</p>
+          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">Camera and microphone are off. Speaking starts when this clock ends.</p>
           <button
             type="button"
             onClick={() => void beginRecording()}
-            className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-5 py-3 text-sm font-bold text-emerald-200 transition hover:bg-emerald-500/20"
+            className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-5 py-3 text-sm font-bold text-emerald-800 dark:text-emerald-200 transition hover:bg-emerald-500/20"
           >
             <SkipForward className="h-4 w-4" />
             Skip Prep & Start Speaking
@@ -267,14 +265,14 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
       )}
 
       {phase === "RECORDING" && (
-        <section className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 shadow-2xl shadow-black/40">
-          <div className="flex items-center justify-between gap-3 border-b border-slate-800 px-5 py-4">
+        <section className="overflow-hidden rounded-3xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 shadow-sm">
+          <div className="flex items-center justify-between gap-3 border-b border-premium-border dark:border-premium-borderDark px-5 py-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-300">Speaking</p>
-              <h2 className="text-lg font-bold text-white">{topic}</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">Speaking</p>
+              <h2 className="text-lg font-bold text-premium-charcoal dark:text-zinc-100">{topic}</h2>
             </div>
             {!processing && (
-              <span className={`flex items-center gap-2 text-2xl font-black tabular-nums ${clockUrgent ? "text-rose-400" : "text-emerald-300"}`}>
+              <span className={`flex items-center gap-2 text-2xl font-black tabular-nums ${clockUrgent ? "text-rose-400" : "text-emerald-700 dark:text-emerald-300"}`}>
                 <Mic className="h-5 w-5" />
                 {formatClock(secondsLeft)}
               </span>
@@ -284,10 +282,10 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
           <div className="relative aspect-video bg-black">
             <video ref={videoRef} autoPlay muted playsInline className="h-full w-full object-cover" />
             {processing && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-950/80 px-6 text-center">
-                <Loader2 className="h-8 w-8 animate-spin text-amber-300" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/90 dark:bg-zinc-900/80 px-6 text-center">
+                <Loader2 className="h-8 w-8 animate-spin text-premium-accent" />
                 <p className="text-lg font-bold">Processing Video...</p>
-                <p className="max-w-sm text-sm text-slate-400">The camera and microphone are off while the GTO reviews the recording.</p>
+                <p className="max-w-sm text-sm text-zinc-500 dark:text-zinc-400">The camera and microphone are off while the GTO reviews the recording.</p>
               </div>
             )}
           </div>
@@ -297,7 +295,7 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
               <button
                 type="button"
                 onClick={finishRecording}
-                className="inline-flex items-center gap-2 rounded-2xl bg-rose-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-500"
+                className="inline-flex items-center gap-2 rounded-2xl bg-rose-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-rose-600"
               >
                 <Square className="h-4 w-4" />
                 Finish Early
@@ -308,37 +306,37 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
       )}
 
       {phase === "ANALYSIS_COMPLETE" && assessment && (
-        <section className="rounded-3xl border border-amber-500/20 bg-slate-900/80 p-6 shadow-2xl shadow-black/40 sm:p-8">
+        <section className="rounded-3xl border border-amber-500/20 bg-white dark:bg-zinc-900 p-6 shadow-sm sm:p-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-300">GTO board</p>
-              <h2 className="mt-2 text-2xl font-extrabold text-white">{topic}</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-premium-accent">GTO board</p>
+              <h2 className="mt-2 text-2xl font-extrabold text-premium-charcoal dark:text-zinc-100">{topic}</h2>
             </div>
             <div className="rounded-2xl border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-amber-200">Score</p>
-              <p className="mt-1 flex items-center justify-center gap-2 text-4xl font-black text-amber-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-premium-accent">Score</p>
+              <p className="mt-1 flex items-center justify-center gap-2 text-4xl font-black text-premium-accent">
                 <Award className="h-7 w-7" />
                 {assessment.ai_score}
-                <span className="text-lg font-bold text-amber-100/70">/ 10</span>
+                <span className="text-lg font-bold text-premium-accent/80">/ 10</span>
               </p>
             </div>
           </div>
 
           <div className="mt-6 grid gap-4">
-            <article className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-              <h3 className="text-sm font-bold text-emerald-300">Speaking fluency</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-300">{assessment.fluency_feedback}</p>
+            <article className="rounded-2xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-4">
+              <h3 className="text-sm font-bold text-emerald-700 dark:text-emerald-300">Speaking fluency</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{assessment.fluency_feedback}</p>
             </article>
-            <article className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
-              <h3 className="text-sm font-bold text-cyan-300">Content structure</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-300">{assessment.structure_feedback}</p>
+            <article className="rounded-2xl border border-premium-border dark:border-premium-borderDark bg-white dark:bg-zinc-900 p-4">
+              <h3 className="text-sm font-bold text-zinc-600 dark:text-zinc-300">Content structure</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{assessment.structure_feedback}</p>
             </article>
             <article className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-bold text-amber-200">
+              <h3 className="flex items-center gap-2 text-sm font-bold text-premium-accent">
                 <Target className="h-4 w-4" />
                 Actionable cures
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-200">{assessment.actionable_cures}</p>
+              <p className="mt-2 text-sm leading-relaxed text-premium-charcoal dark:text-zinc-200">{assessment.actionable_cures}</p>
             </article>
           </div>
 
@@ -349,7 +347,7 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
           <button
             type="button"
             onClick={generateTopic}
-            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-5 py-3 text-sm font-extrabold text-slate-950"
+            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-premium-charcoal px-5 py-3 text-sm font-extrabold text-premium-beige transition hover:bg-premium-accent dark:bg-zinc-100 dark:text-premium-charcoal"
           >
             <Shield className="h-4 w-4" />
             Draw another topic
@@ -358,7 +356,7 @@ export default function SoloStudio({ onBack }: { onBack?: () => void }) {
       )}
 
       {error && (
-        <p role="status" className="rounded-2xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+        <p role="status" className="rounded-2xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-800 dark:text-rose-200">
           {error}
         </p>
       )}

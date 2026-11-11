@@ -82,10 +82,10 @@ export default function BlitzBoard() {
 
   if (gameOver) {
     return (
-      <div className="max-w-xl mx-auto p-8 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 text-center shadow-2xl">
+      <div className="max-w-xl mx-auto p-8 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark text-center shadow-sm">
         <Trophy className="w-12 h-12 text-amber-400 mx-auto mb-3" />
         <h2 className="text-2xl font-bold mb-1">Blitz Complete!</h2>
-        <p className="text-slate-400 text-sm mb-6">Speed + Accuracy Bonus included</p>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6">Speed + Accuracy Bonus included</p>
         <div className="text-4xl font-extrabold text-cyan-400 mb-6">{score} PTS</div>
         <button
           onClick={restartBlitz}
@@ -98,10 +98,10 @@ export default function BlitzBoard() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full flex items-center gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-cyan-500/20 text-zinc-600 dark:text-zinc-300 rounded-full flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 fill-cyan-300" /> Blitz ({currentIdx + 1}/{questions.length})
           </span>
           {isCloud && (
@@ -118,18 +118,18 @@ export default function BlitzBoard() {
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold mb-6 text-slate-100">{currentQ.question}</h2>
+      <h2 className="text-lg font-semibold mb-6 text-premium-charcoal dark:text-zinc-100">{currentQ.question}</h2>
 
       <div className="space-y-3 mb-6">
         {currentQ.options.map((opt, idx) => {
           const isSelected = selectedOpt === idx;
           const isCorrect = idx === currentQ.correctIndex;
-          let style = "bg-slate-800/80 border-slate-700 hover:border-slate-500";
+          let style = "bg-premium-beige dark:bg-zinc-800 border-premium-border dark:border-premium-borderDark hover:border-premium-accent";
 
           if (selectedOpt !== null) {
-            if (isCorrect) style = "bg-emerald-950/60 border-emerald-500 text-emerald-200";
-            else if (isSelected) style = "bg-rose-950/60 border-rose-500 text-rose-200";
-            else style = "bg-slate-900 border-slate-800 opacity-50";
+            if (isCorrect) style = "border-emerald-700 bg-emerald-50 text-emerald-900 dark:border-emerald-500 dark:bg-emerald-950/60 dark:text-emerald-200";
+            else if (isSelected) style = "border-rose-700 bg-rose-50 text-rose-900 dark:border-rose-500 dark:bg-rose-950/60 dark:text-rose-200";
+            else style = "bg-white dark:bg-zinc-900 border-premium-border dark:border-premium-borderDark opacity-50";
           }
 
           return (
@@ -148,8 +148,8 @@ export default function BlitzBoard() {
       </div>
 
       {selectedOpt !== null && (
-        <div className="p-4 rounded-xl bg-slate-800/90 border border-slate-700 flex flex-col gap-3">
-          <p className="text-xs text-slate-300 leading-relaxed">
+        <div className="p-4 rounded-xl bg-premium-beige dark:bg-zinc-800 border border-premium-border dark:border-premium-borderDark flex flex-col gap-3">
+          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
             <span className="font-bold text-cyan-400">Concept Check: </span>
             {currentQ.explanation}
           </p>

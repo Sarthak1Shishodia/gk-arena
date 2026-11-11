@@ -71,10 +71,10 @@ export default function TimelineBoard() {
   const formatYear = (y: number) => (y < 0 ? `${Math.abs(y)} BCE` : `${y} CE`);
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-2xl">
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-indigo-500/20 text-premium-accent rounded-full">
             History • Round {roundIdx + 1}/{rounds.length}
           </span>
           {isCloud && (
@@ -88,7 +88,7 @@ export default function TimelineBoard() {
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold mb-6 text-slate-200">{currentRound.prompt}</h2>
+      <h2 className="text-lg font-semibold mb-6 text-premium-charcoal dark:text-zinc-200">{currentRound.prompt}</h2>
 
       <div className="space-y-3 mb-6">
         {items.map((event, index) => (
@@ -97,20 +97,20 @@ export default function TimelineBoard() {
             className={`p-4 rounded-xl border transition-all flex items-center justify-between gap-4 ${
               submitted
                 ? isWin
-                  ? "bg-emerald-950/40 border-emerald-500/50"
-                  : "bg-rose-950/40 border-rose-500/50"
-                : "bg-slate-800/80 border-slate-700 hover:border-slate-600"
+                  ? "border-emerald-700 bg-emerald-50 dark:border-emerald-500/50 dark:bg-emerald-950/40"
+                  : "border-rose-700 bg-rose-50 dark:border-rose-500/50 dark:bg-rose-950/40"
+                : "bg-premium-beige dark:bg-zinc-800 border-premium-border dark:border-premium-borderDark hover:border-premium-accent"
             }`}
           >
             <div className="flex items-start gap-3">
-              <span className="w-6 h-6 rounded-full bg-slate-700 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+              <span className="w-6 h-6 rounded-full bg-premium-beige text-premium-charcoal dark:bg-zinc-800 dark:text-zinc-100 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {index + 1}
               </span>
               <div>
-                <p className="font-medium text-slate-100">{event.title}</p>
+                <p className="font-medium text-premium-charcoal dark:text-zinc-100">{event.title}</p>
                 {submitted && (
-                  <p className="text-xs text-slate-400 mt-1">
-                    <span className="font-bold text-amber-300">{formatYear(event.year)}:</span> {event.detail}
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                    <span className="font-bold text-premium-accent">{formatYear(event.year)}:</span> {event.detail}
                   </p>
                 )}
               </div>
@@ -118,10 +118,10 @@ export default function TimelineBoard() {
 
             {!submitted && (
               <div className="flex flex-col gap-1 shrink-0">
-                <button onClick={() => moveItem(index, "up")} disabled={index === 0} className="p-1 rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-30">
+                <button onClick={() => moveItem(index, "up")} disabled={index === 0} className="p-1 rounded border border-premium-border bg-premium-beige text-premium-charcoal hover:border-premium-accent dark:border-premium-borderDark dark:bg-zinc-800 dark:text-zinc-100 disabled:opacity-30">
                   <ArrowUp className="w-4 h-4" />
                 </button>
-                <button onClick={() => moveItem(index, "down")} disabled={index === items.length - 1} className="p-1 rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-30">
+                <button onClick={() => moveItem(index, "down")} disabled={index === items.length - 1} className="p-1 rounded border border-premium-border bg-premium-beige text-premium-charcoal hover:border-premium-accent dark:border-premium-borderDark dark:bg-zinc-800 dark:text-zinc-100 disabled:opacity-30">
                   <ArrowDown className="w-4 h-4" />
                 </button>
               </div>
@@ -135,7 +135,7 @@ export default function TimelineBoard() {
           Lock In Timeline
         </button>
       ) : (
-        <div className="flex items-center justify-between bg-slate-800/90 p-4 rounded-xl">
+        <div className="flex items-center justify-between bg-premium-beige dark:bg-zinc-800 p-4 rounded-xl">
           <div className="flex items-center gap-2">
             {isWin ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : <XCircle className="w-5 h-5 text-rose-400" />}
             <span className="font-semibold text-sm">

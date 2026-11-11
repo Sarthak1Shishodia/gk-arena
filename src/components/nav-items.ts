@@ -1,4 +1,4 @@
-import { Brain, Clock, Compass, Flame, Swords, Trophy, Video, WandSparkles, Zap, type LucideIcon } from "lucide-react";
+import { BookOpen, Brain, Clock, Compass, Flame, Swords, Trophy, Video, WandSparkles, Zap, type LucideIcon } from "lucide-react";
 
 export type ArenaMode = "daily" | "timeline" | "map" | "blitz" | "leaderboard" | "contest" | "vault";
 
@@ -11,15 +11,16 @@ export type NavItem = {
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Daily", mode: "daily", icon: Flame, activeClass: "bg-amber-500 text-slate-950" },
-  { href: "/timeline", label: "Timeline", mode: "timeline", icon: Clock, activeClass: "bg-indigo-600 text-white" },
-  { href: "/map", label: "Map", mode: "map", icon: Compass, activeClass: "bg-emerald-600 text-white" },
-  { href: "/blitz", label: "Blitz", mode: "blitz", icon: Zap, activeClass: "bg-cyan-600 text-white" },
-  { href: "/contest", label: "Compete", mode: "contest", icon: Swords, activeClass: "bg-rose-600 text-white" },
-  { href: "/vault", label: "Vault", mode: "vault", icon: Brain, activeClass: "bg-violet-600 text-white" },
-  { href: "/ranks", label: "Ranks", mode: "leaderboard", icon: Trophy, activeClass: "bg-slate-700 text-white" },
-  { href: "/rooms", label: "Rooms", mode: null, icon: Video, activeClass: "bg-indigo-600 text-white" },
-  { href: "/admin", label: "Admin", mode: null, icon: WandSparkles, activeClass: "bg-amber-400 text-slate-950" },
+  { href: "/", label: "Daily", mode: "daily", icon: Flame, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/timeline", label: "Timeline", mode: "timeline", icon: Clock, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/map", label: "Map", mode: "map", icon: Compass, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/blitz", label: "Blitz", mode: "blitz", icon: Zap, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/contest", label: "Compete", mode: "contest", icon: Swords, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/vault", label: "Vault", mode: "vault", icon: Brain, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/ranks", label: "Ranks", mode: "leaderboard", icon: Trophy, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/reading", label: "Reading", mode: null, icon: BookOpen, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/rooms", label: "Rooms", mode: null, icon: Video, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
+  { href: "/admin", label: "Admin", mode: null, icon: WandSparkles, activeClass: "bg-premium-charcoal text-premium-beige dark:bg-zinc-100 dark:text-premium-charcoal" },
 ];
 
 export function isNavActive(pathname: string, href: string) {
