@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { AcademyProvider, type AcademyProfile } from "@/components/shell/AcademyContext";
 import Sidebar from "@/components/shell/Sidebar";
@@ -54,14 +54,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <AcademyProvider value={{ user, profile, signOut }}>
       <div className="flex h-screen overflow-hidden bg-premium-beige text-premium-charcoal dark:bg-premium-gray dark:text-zinc-200">
         <aside className={`hidden shrink-0 border-r border-premium-border dark:border-premium-borderDark lg:block ${desktopOpen ? "w-[240px]" : "w-0 overflow-hidden border-r-0"}`}>
-          <Sidebar onClose={() => setDesktopOpen(false)} />
+          <Suspense fallback={<div className="h-full" />}>
+            <Sidebar onClose={() => setDesktopOpen(false)} />
+          </Suspense>
         </aside>
 
         {mobileOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
             <button type="button" aria-label="Close navigation" className="absolute inset-0 bg-premium-charcoal/40" onClick={() => setMobileOpen(false)} />
             <aside className="relative h-full w-[240px] border-r border-premium-border dark:border-premium-borderDark">
-              <Sidebar onNavigate={() => setMobileOpen(false)} onClose={() => setMobileOpen(false)} />
+              <Suspense fallback={<div className="h-full" />}>
+                <Sidebar onNavigate={() => setMobileOpen(false)} onClose={() => setMobileOpen(false)} />
+              </Suspense>
             </aside>
           </div>
         )}
