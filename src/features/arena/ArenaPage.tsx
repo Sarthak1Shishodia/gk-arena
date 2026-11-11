@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Headphones, MessageCircle } from "lucide-react";
 import DailyBoard from "@/features/daily-challenge/DailyBoard";
 import TimelineBoard from "@/features/timeline-game/TimelineBoard";
 import BlitzBoard from "@/features/blitz-game/BlitzBoard";
@@ -11,10 +11,12 @@ import LeaderboardBoard from "@/features/leaderboard/LeaderboardBoard";
 import ContestBoard from "@/features/contest/ContestBoard";
 import VaultBoard from "@/features/vault/VaultBoard";
 import TeleprompterBoard from "@/features/teleprompter/TeleprompterBoard";
+import ListeningBoard from "@/features/listening/ListeningBoard";
+import ForumBoard from "@/features/forum/ForumBoard";
 import { NAV_ITEMS, type ArenaMode } from "@/components/nav-items";
 
 export default function ArenaPage({ mode }: { mode: ArenaMode }) {
-  const [activeMode, setActiveMode] = useState<"daily" | "timeline" | "map" | "blitz" | "leaderboard" | "contest" | "vault" | "read">(mode);
+  const [activeMode, setActiveMode] = useState<"daily" | "timeline" | "map" | "blitz" | "leaderboard" | "contest" | "vault" | "read" | "listen" | "forum">(mode);
   const boards = NAV_ITEMS.filter((item) => item.mode);
 
   return (
@@ -57,6 +59,32 @@ export default function ArenaPage({ mode }: { mode: ArenaMode }) {
             <BookOpen className="h-4 w-4" />
             Read
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveMode("listen")}
+            aria-current={activeMode === "listen" ? "page" : undefined}
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              activeMode === "listen"
+                ? "bg-white text-premium-charcoal shadow dark:bg-zinc-900 dark:text-zinc-100"
+                : "text-zinc-500 hover:text-premium-charcoal dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            <Headphones className="h-4 w-4" />
+            Listen
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveMode("forum")}
+            aria-current={activeMode === "forum" ? "page" : undefined}
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              activeMode === "forum"
+                ? "bg-white text-premium-charcoal shadow dark:bg-zinc-900 dark:text-zinc-100"
+                : "text-zinc-500 hover:text-premium-charcoal dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            <MessageCircle className="h-4 w-4" />
+            Discuss
+          </button>
         </div>
       </div>
 
@@ -68,6 +96,8 @@ export default function ArenaPage({ mode }: { mode: ArenaMode }) {
       {activeMode === "contest" && <ContestBoard />}
       {activeMode === "vault" && <VaultBoard />}
       {activeMode === "read" && <TeleprompterBoard />}
+      {activeMode === "listen" && <ListeningBoard />}
+      {activeMode === "forum" && <ForumBoard />}
     </main>
   );
 }
