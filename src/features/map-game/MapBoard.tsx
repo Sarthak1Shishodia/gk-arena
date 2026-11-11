@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { MapPinPayload } from "@/types/game";
 import { fetchMapTargets } from "@/lib/supabase/queries";
 import { Compass, Navigation, RotateCcw, Trophy, Database } from "lucide-react";
 import confetti from "canvas-confetti";
+import type { MapPoint } from "@/features/map-game/InteractiveMap";
+
+const InteractiveMap = dynamic(() => import("@/features/map-game/InteractiveMap"), { ssr: false });
 
 const FALLBACK_TARGETS: MapPinPayload[] = [
   {
@@ -16,20 +20,6 @@ const FALLBACK_TARGETS: MapPinPayload[] = [
     fact: "Located along the Bhogava river near the Gulf of Khambhat, Lothal had the world's earliest known artificial dockyard.",
   },
 ];
-
-const BOUNDS = { minLat: 6.5, maxLat: 37.5, minLng: 68.0, maxLng: 97.5 };
-
-function latLngToXY(lat: number, lng: number) {
-  const x = ((lng - BOUNDS.minLng) / (BOUNDS.maxLng - BOUNDS.minLng)) * 400;
-  const y = ((BOUNDS.maxLat - lat) / (BOUNDS.maxLat - BOUNDS.minLat)) * 460;
-  return { x, y };
-}
-
-function xyToLatLng(x: number, y: number) {
-  const lng = BOUNDS.minLng + (x / 400) * (BOUNDS.maxLng - BOUNDS.minLng);
-  const lat = BOUNDS.maxLat - (y / 460) * (BOUNDS.maxLat - BOUNDS.minLat);
-  return { lat, lng };
-}
 
 function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number) {
   const R = 6371;
@@ -45,7 +35,8 @@ export default function MapBoard() {
   const [targets, setTargets] = useState<MapPinPayload[]>(FALLBACK_TARGETS);
   const [isCloud, setIsCloud] = useState(false);
   const [idx, setIdx] = useState(0);
-  const [guess, setGuess] = useState<{ lat: number; lng: number } | null>(null);
+  const [pin, setPin] = useState<MapPoint | null>(null);
+  const [guess, setGuess] = useState<MapPoint | null>(null);
   const [distanceKm, setDistanceKm] = useState<number | null>(null);
   const [totalScore, setTotalScore] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -61,25 +52,22 @@ export default function MapBoard() {
 
   const target = targets[idx];
 
-  const handleMapClick = (e: React.MouseEvent<SVGSVGElement>) => {
-    if (guess) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 400;
-    const y = ((e.clientY - rect.top) / rect.height) * 460;
-    const clicked = xyToLatLng(x, y);
-    const dist = getDistanceKm(clicked.lat, clicked.lng, target.lat, target.lng);
+  const submitCoordinates = () => {
+    if (!pin || guess) return;
+    const dist = getDistanceKm(pin.lat, pin.lng, target.lat, target.lng);
     const pts = Math.max(0, Math.round(1000 - dist * 0.75));
 
-    setGuess(clicked);
+    setGuess(pin);
     setDistanceKm(dist);
-    setTotalScore((s) => s + pts);
+    setTotalScore((score) => score + pts);
     if (dist <= 250) confetti({ particleCount: 55, spread: 60, origin: { y: 0.7 } });
   };
 
   const nextTarget = () => {
     if (idx + 1 >= targets.length) setFinished(true);
     else {
-      setIdx((i) => i + 1);
+      setIdx((current) => current + 1);
+      setPin(null);
       setGuess(null);
       setDistanceKm(null);
     }
@@ -92,7 +80,7 @@ export default function MapBoard() {
         <h2 className="text-2xl font-bold mb-1">Expedition Complete!</h2>
         <div className="text-4xl font-extrabold text-emerald-400 my-6">{totalScore} PTS</div>
         <button
-          onClick={() => { setIdx(0); setGuess(null); setDistanceKm(null); setTotalScore(0); setFinished(false); }}
+          onClick={() => { setIdx(0); setPin(null); setGuess(null); setDistanceKm(null); setTotalScore(0); setFinished(false); }}
           className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold transition"
         >
           <RotateCcw className="w-4 h-4" /> Replay Expedition
@@ -100,9 +88,6 @@ export default function MapBoard() {
       </div>
     );
   }
-
-  const guessXY = guess ? latLngToXY(guess.lat, guess.lng) : null;
-  const targetXY = latLngToXY(target.lat, target.lng);
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white dark:bg-zinc-900 text-premium-charcoal dark:text-zinc-100 rounded-2xl border border-premium-border dark:border-premium-borderDark shadow-sm">
@@ -122,30 +107,25 @@ export default function MapBoard() {
 
       <h2 className="text-lg font-semibold mb-4 text-premium-charcoal dark:text-zinc-100">{target.prompt}</h2>
 
-      <div className="relative bg-white dark:bg-zinc-900 rounded-xl border border-premium-border dark:border-premium-borderDark overflow-hidden mb-4">
-        <svg viewBox="0 0 400 460" onClick={handleMapClick} className={`w-full h-80 select-none ${guess ? "cursor-default" : "cursor-crosshair"}`}>
-          {[80, 160, 240, 320, 400].map((v) => (
-            <React.Fragment key={v}>
-              <line x1={v} y1={0} x2={v} y2={460} stroke="#1e293b" strokeDasharray="3 3" />
-              <line x1={0} y1={v} x2={400} y2={v} stroke="#1e293b" strokeDasharray="3 3" />
-            </React.Fragment>
-          ))}
-          <polygon
-            points="145,18 192,24 205,58 188,88 215,128 265,138 292,120 358,118 380,145 348,185 318,195 282,175 268,215 228,265 198,325 162,415 142,415 112,330 85,250 75,212 32,202 25,172 68,155 82,118 122,78"
-            fill="#0f172a" stroke="#334155" strokeWidth="2.5"
-          />
-          {guessXY && (
-            <>
-              <line x1={guessXY.x} y1={guessXY.y} x2={targetXY.x} y2={targetXY.y} stroke="#f59e0b" strokeWidth="2" strokeDasharray="5 4" />
-              <circle cx={guessXY.x} cy={guessXY.y} r="6" fill="#f43f5e" stroke="#fff" strokeWidth="2" />
-              <circle cx={targetXY.x} cy={targetXY.y} r="7" fill="#10b981" stroke="#fff" strokeWidth="2" />
-            </>
-          )}
-        </svg>
+      <div className="isolate h-[28rem] overflow-hidden rounded-xl border border-premium-border bg-white dark:border-premium-borderDark dark:bg-zinc-900">
+        <InteractiveMap
+          key={idx}
+          locked={guess !== null}
+          answer={guess ? { lat: target.lat, lng: target.lng, name: target.targetName } : null}
+          onSelect={setPin}
+        />
       </div>
+      <button
+        type="button"
+        onClick={submitCoordinates}
+        disabled={!pin || guess !== null}
+        className="mt-4 w-full rounded-xl bg-premium-charcoal px-4 py-2.5 text-sm font-bold text-premium-beige transition hover:bg-premium-accent disabled:opacity-50 dark:bg-zinc-100 dark:text-premium-charcoal"
+      >
+        Submit Coordinates
+      </button>
 
       {guess && distanceKm !== null && (
-        <div className="p-4 rounded-xl bg-premium-beige dark:bg-zinc-800 border border-premium-border dark:border-premium-borderDark flex flex-col gap-2">
+        <div className="mt-4 flex flex-col gap-2 rounded-xl border border-premium-border bg-premium-beige p-4 dark:border-premium-borderDark dark:bg-zinc-800">
           <div className="flex justify-between items-center">
             <span className="font-bold text-sm text-emerald-400 flex items-center gap-1.5">
               <Navigation className="w-4 h-4" /> {target.targetName}

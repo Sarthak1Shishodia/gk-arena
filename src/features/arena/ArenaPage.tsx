@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, Headphones, MessageCircle } from "lucide-react";
+import { BookOpen, BookText, Headphones, MessageCircle } from "lucide-react";
 import DailyBoard from "@/features/daily-challenge/DailyBoard";
 import TimelineBoard from "@/features/timeline-game/TimelineBoard";
 import BlitzBoard from "@/features/blitz-game/BlitzBoard";
@@ -13,10 +13,11 @@ import VaultBoard from "@/features/vault/VaultBoard";
 import TeleprompterBoard from "@/features/teleprompter/TeleprompterBoard";
 import ListeningBoard from "@/features/listening/ListeningBoard";
 import ForumBoard from "@/features/forum/ForumBoard";
+import TheoryBoard from "@/features/theory/TheoryBoard";
 import { NAV_ITEMS, type ArenaMode } from "@/components/nav-items";
 
 export default function ArenaPage({ mode }: { mode: ArenaMode }) {
-  const [activeMode, setActiveMode] = useState<"daily" | "timeline" | "map" | "blitz" | "leaderboard" | "contest" | "vault" | "read" | "listen" | "forum">(mode);
+  const [activeMode, setActiveMode] = useState<"daily" | "timeline" | "map" | "blitz" | "leaderboard" | "contest" | "vault" | "read" | "listen" | "forum" | "theory">(mode);
   const boards = NAV_ITEMS.filter((item) => item.mode);
 
   return (
@@ -46,6 +47,19 @@ export default function ArenaPage({ mode }: { mode: ArenaMode }) {
               </Link>
             );
           })}
+          <button
+            type="button"
+            onClick={() => setActiveMode("theory")}
+            aria-current={activeMode === "theory" ? "page" : undefined}
+            className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition ${
+              activeMode === "theory"
+                ? "bg-white text-premium-charcoal shadow dark:bg-zinc-900 dark:text-zinc-100"
+                : "text-zinc-500 hover:text-premium-charcoal dark:text-zinc-400 dark:hover:text-zinc-100"
+            }`}
+          >
+            <BookText className="h-4 w-4" />
+            Learn
+          </button>
           <button
             type="button"
             onClick={() => setActiveMode("read")}
@@ -98,6 +112,7 @@ export default function ArenaPage({ mode }: { mode: ArenaMode }) {
       {activeMode === "read" && <TeleprompterBoard />}
       {activeMode === "listen" && <ListeningBoard />}
       {activeMode === "forum" && <ForumBoard />}
+      {activeMode === "theory" && <TheoryBoard />}
     </main>
   );
 }
