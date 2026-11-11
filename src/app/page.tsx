@@ -1,5 +1,5 @@
-import ArenaPage from "@/features/arena/ArenaPage";
+import OverviewDashboard from "@/features/overview/OverviewDashboard";
 
 export default function HomePage() {
-  return <ArenaPage mode="daily" />;
+  return <OverviewDashboard />;
 }

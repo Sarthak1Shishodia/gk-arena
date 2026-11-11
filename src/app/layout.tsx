@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
+import AppShell from "@/components/shell/AppShell";
 import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
@@ -15,10 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col bg-premium-beige text-premium-charcoal antialiased transition-colors duration-300 dark:bg-premium-gray dark:text-zinc-200">
+      <body className="bg-premium-beige text-premium-charcoal antialiased transition-colors duration-300 dark:bg-premium-gray dark:text-zinc-200">
         <ThemeProvider>
-          <Header />
-          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>
